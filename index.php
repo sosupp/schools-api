@@ -5,6 +5,12 @@ declare(strict_types=1);
  * for the application
  */
 
+
+
+// content type header
+header("Content-type: application/json; charset=UTF-8");
+
+
 //  Get path
 $path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 
@@ -27,5 +33,12 @@ $method = $_SERVER["REQUEST_METHOD"];
 
 require_once __DIR__ . '/vendor/autoload.php';
 
+//  handle exceptions - general with JSON format
+set_exception_handler("ErrorHandler::handleException");
+
+
+
 $school = new SchoolsController;
 $school->porcessRquest($method, $id);
+
+
