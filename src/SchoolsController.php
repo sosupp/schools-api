@@ -6,11 +6,24 @@ class SchoolsController{
     public function porcessRquest(string $method, ?string $id)
     {
         // check if ID is present
-        if (! $id){
-            //GET or POST method 
-            echo "this will be a GET method for list or POST method"; 
-        } else {
+        if($id === null || empty($id) ){
+            if($method == 'GET'){
+                echo 'this will list records';
+                
+            } elseif($method=='POST'){
+                echo "Create new record";
 
+            } else {
+                // Method not allowed
+                $this->respondMethodNotAllowed("GET, POST");
+                exit;
+            }
+
+
+        } else {
+            // check if record exist
+
+            // siwtch statement
             // using switch statement 
             switch ($method) {
                 case 'GET':
@@ -32,8 +45,18 @@ class SchoolsController{
                     echo "request method unkown";
                     break;
             }
-
-
         }
+            
+    }
+
+    // method not allowed
+
+    /**
+     * Ensuring correct responds method. 
+     */
+    private function respondMethodNotAllowed(string $allowMethod) : void
+    {
+        http_response_code(405);
+        header("Allow: $allowMethod");
     }
 }
