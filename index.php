@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 /**
  * This is the front controller 
  * for the application
@@ -7,8 +8,9 @@ declare(strict_types=1);
 
 
 
-// content type header
-header("Content-type: application/json; charset=UTF-8");
+ // content type header
+// header("Content-type: application/json; charset=UTF-8");
+
 
 
 //  Get path
@@ -32,13 +34,21 @@ $method = $_SERVER["REQUEST_METHOD"];
 // require_once __DIR__ . "../src/SchoolsController.php";
 
 require_once __DIR__ . '/vendor/autoload.php';
-
 //  handle exceptions - general with JSON format
 set_exception_handler("ErrorHandler::handleException");
 
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+// db connection object
+$db = new Database(
+    $_ENV['DB_HOST'],
+    $_ENV['DB_NAME'],
+    $_ENV['DB_USER'],
+    $_ENV['DB_PASS'],
+);
 
 
-$school = new SchoolsController;
+$school = new SchoolsController($db);
 $school->porcessRquest($method, $id);
 
 

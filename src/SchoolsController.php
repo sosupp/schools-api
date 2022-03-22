@@ -2,6 +2,15 @@
 
 class SchoolsController{
     
+    // properties
+    private PDO $conn;
+
+    // constructor
+    public function __construct(Database $database)
+    {
+        $this->conn = $database->getConnection();
+    }
+
     // process rquest based on request method and/or ID
     public function porcessRquest(string $method, ?string $id)
     {
@@ -49,7 +58,14 @@ class SchoolsController{
             
     }
 
-    // method not allowed
+
+    /**
+     * List all records
+     */
+    public function index()
+    {
+
+    }
 
     /**
      * Ensuring correct responds method. 
